@@ -67,7 +67,10 @@ export default function SignUpScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.header}>
           <View style={styles.logoContainer}>
             <Image 
@@ -76,8 +79,8 @@ export default function SignUpScreen({ navigation }) {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>
+          <Text variant="headlineMedium" style={styles.title}>Create Account</Text>
+          <Text variant="bodyMedium" style={styles.subtitle}>
             Join our community of disciples
           </Text>
         </View>
@@ -85,56 +88,47 @@ export default function SignUpScreen({ navigation }) {
         <View style={styles.formContainer}>
           {authError ? <Text style={styles.error}>{authError}</Text> : null}
           
-          <Text style={styles.inputLabel}>Email</Text>
           <TextInput
-            style={[
-              styles.input,
-              touched.email && errors.email && styles.inputError
-            ]}
-            placeholder="Enter your email"
+            label="Email"
+            mode="outlined"
+            style={styles.input}
             value={email}
             onChangeText={setEmail}
             onBlur={() => handleBlur('email')}
             autoCapitalize="none"
             keyboardType="email-address"
-            mode="outlined"
-            left={<TextInput.Icon icon="email" color={theme.colors.primary} />}
+            left={<TextInput.Icon icon="email" />}
+            error={touched.email && !!errors.email}
           />
           {touched.email && errors.email ? (
             <Text style={styles.errorText}>{errors.email}</Text>
           ) : null}
           
-          <Text style={styles.inputLabel}>Password</Text>
           <TextInput
-            style={[
-              styles.input,
-              touched.password && errors.password && styles.inputError
-            ]}
-            placeholder="Create a password"
+            label="Password"
+            mode="outlined"
+            style={[styles.input, { marginTop: 16 }]}
             value={password}
             onChangeText={setPassword}
             onBlur={() => handleBlur('password')}
             secureTextEntry
-            mode="outlined"
-            left={<TextInput.Icon icon="lock" color={theme.colors.primary} />}
+            left={<TextInput.Icon icon="lock" />}
+            error={touched.password && !!errors.password}
           />
           {touched.password && errors.password ? (
             <Text style={styles.errorText}>{errors.password}</Text>
           ) : null}
           
-          <Text style={styles.inputLabel}>Confirm Password</Text>
           <TextInput
-            style={[
-              styles.input,
-              touched.confirmPassword && errors.confirmPassword && styles.inputError
-            ]}
-            placeholder="Confirm your password"
+            label="Confirm Password"
+            mode="outlined"
+            style={[styles.input, { marginTop: 16 }]}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             onBlur={() => handleBlur('confirmPassword')}
             secureTextEntry
-            mode="outlined"
-            left={<TextInput.Icon icon="lock-check" color={theme.colors.primary} />}
+            left={<TextInput.Icon icon="lock-check" />}
+            error={touched.confirmPassword && !!errors.confirmPassword}
           />
           {touched.confirmPassword && errors.confirmPassword ? (
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
@@ -145,7 +139,7 @@ export default function SignUpScreen({ navigation }) {
             onPress={handleSignUp}
             loading={isLoading}
             disabled={isLoading}
-            style={styles.button}
+            style={[styles.button, { marginTop: 24 }]}
             contentStyle={{ height: 50 }}
             labelStyle={{ fontSize: 16 }}
             icon="account-plus"
@@ -153,11 +147,11 @@ export default function SignUpScreen({ navigation }) {
             Create Account
           </Button>
           
-          <View style={styles.linksContainer}>
+          <View style={[styles.linksContainer, { marginTop: 20 }]}>
             <Text style={{ color: theme.colors.onSurfaceVariant }}>
               Already have an account?{' '}
               <Text 
-                style={styles.link}
+                style={[styles.link, { color: theme.colors.primary }]}
                 onPress={() => navigation.navigate('Login')}
               >
                 Sign In
