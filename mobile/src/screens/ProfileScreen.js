@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Text, useTheme, Button, Divider, Card, IconButton, Portal, Dialog, TextInput } from 'react-native-paper';
+import { View, ScrollView, Alert } from 'react-native';
+import { Text, useTheme, Button, Card, IconButton, Portal, Dialog, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileMenuItem from '../components/profile/ProfileMenuItem';
 import useProfile from '../hooks/useProfile';
+import profileStyles from '../styles/profile.styles';
 
 const ProfileScreen = () => {
   const theme = useTheme();
@@ -60,8 +61,10 @@ const ProfileScreen = () => {
     );
   };
 
+  const styles = profileStyles(theme);
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={styles.container}>
       <ScrollView>
         <ProfileHeader 
           user={user} 
@@ -70,9 +73,9 @@ const ProfileScreen = () => {
         />
 
         {/* Personal Information */}
-        <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <Card style={styles.card}>
           <Card.Content>
-            <Text variant="titleMedium" style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
               Personal Information
             </Text>
             
@@ -112,9 +115,9 @@ const ProfileScreen = () => {
         </Card>
 
         {/* Preferences */}
-        <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <Card style={styles.card}>
           <Card.Content>
-            <Text variant="titleMedium" style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
               Preferences
             </Text>
             
@@ -153,9 +156,9 @@ const ProfileScreen = () => {
         </Card>
 
         {/* Account */}
-        <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <Card style={styles.card}>
           <Card.Content>
-            <Text variant="titleMedium" style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
               Account
             </Text>
             
@@ -187,7 +190,7 @@ const ProfileScreen = () => {
         <Button
           mode="contained"
           onPress={confirmSignOut}
-          style={[styles.signOutButton, { backgroundColor: theme.colors.error }]}
+          style={styles.signOutButton}
           textColor="white"
           icon="logout"
           loading={isLoading}
@@ -196,7 +199,7 @@ const ProfileScreen = () => {
           Sign Out
         </Button>
 
-        <Text style={[styles.version, { color: theme.colors.onSurfaceVariant }]}>
+        <Text style={styles.version}>
           GoYeCRM v1.0.0
         </Text>
       </ScrollView>
@@ -234,63 +237,5 @@ const ProfileScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  card: {
-    margin: 16,
-    marginBottom: 0,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  sectionTitle: {
-    marginBottom: 10,
-  },
-  menuButton: {
-    position: 'absolute',
-    right: -15,
-    top: -15,
-  },
-  name: {
-    marginTop: 10,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  email: {
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginTop: 20,
-    paddingVertical: 10,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 10,
-  },
-  statItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statDivider: {
-    width: 1,
-    backgroundColor: '#ccc',
-    height: '100%',
-  },
-  divider: {
-    marginVertical: 10,
-  },
-  languageContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  footer: {
-    padding: 20,
-    marginTop: 10,
-  },
-});
 
 export default ProfileScreen;
