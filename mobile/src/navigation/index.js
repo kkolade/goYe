@@ -105,25 +105,40 @@ export default function Navigation() {
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.surface,
+        },
+        headerTintColor: theme.colors.primary,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
         {!isAuthenticated ? (
-          <>
+          <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen 
               name="Auth" 
-              component={AuthScreen} 
-              options={{ headerShown: false }}
+              component={AuthScreen}
             />
             <Stack.Screen 
               name="SignUp" 
-              component={SignUpScreen} 
-              options={{ title: 'Create Account' }}
+              component={SignUpScreen}
+              options={{
+                headerShown: true,
+                title: 'Create Account',
+                headerBackTitle: 'Back',
+              }}
             />
             <Stack.Screen 
               name="ForgotPassword" 
-              component={ForgotPasswordScreen} 
-              options={{ title: 'Reset Password' }}
+              component={ForgotPasswordScreen}
+              options={{
+                headerShown: true,
+                title: 'Reset Password',
+                headerBackTitle: 'Back',
+              }}
             />
-          </>
+          </Stack.Group>
         ) : (
           <Stack.Screen 
             name="MainTabs" 

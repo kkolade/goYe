@@ -138,7 +138,7 @@ export default function SignUpScreen({ navigation }) {
           <View style={styles.linksContainer}>
             <Button
               mode="text"
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.goBack()}
               style={styles.link}
             >
               Already have an account? Sign In

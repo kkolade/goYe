@@ -37,10 +37,10 @@ export default function ForgotPasswordScreen({ navigation }) {
         </Text>
         <Button 
           mode="contained" 
-          onPress={() => navigation.navigate('Auth')}
+          onPress={() => navigation.goBack()}
           style={[styles.button, { marginTop: 30 }]}
         >
-          Back to Login
+          Back to Auth
         </Button>
       </View>
     );
