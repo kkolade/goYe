@@ -1,34 +1,34 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { View } from 'react-native';
+import { Text, useTheme, FAB } from 'react-native-paper';
+import scheduleStyles from '../styles/schedule.styles';
 
 const ScheduleScreen = () => {
   const theme = useTheme();
+  const styles = scheduleStyles(theme);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.title, { color: theme.colors.primary }]}>
-        Schedule
-      </Text>
-      <Text style={{ color: theme.colors.text }}>
-        Your schedule will appear here
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Schedule</Text>
+      <View style={styles.emptyState}>
+        <Text style={styles.emptyStateText}>
+          Your schedule will appear here
+        </Text>
+        <Text style={styles.subtitle}>
+          No upcoming events scheduled
+        </Text>
+      </View>
+
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        onPress={() => {}}
+        color={theme.colors.onPrimary}
+      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-});
+// All styles have been moved to schedule.styles.js
 
 export default ScheduleScreen;
