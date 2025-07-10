@@ -1,0 +1,88 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme } from 'react-native-paper';
+import { Provider as StoreProvider, useSelector } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import { View, StyleSheet } from 'react-native';
+
+import useCachedResources from './src/hooks/useCachedResources';
+import AppNavigator from './src/navigation/AppNavigator';
+import { store, persistor } from './src/store';
+import { selectTheme } from './src/store/slices/themeSlice';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync().catch(() => {
+  /* reloading the app might trigger some race conditions, ignore them */
+});
+
+function AppContent() {
+  const theme = useSelector(selectTheme);
+  const [appIsReady, setAppIsReady] = useState(false);
+  const { isLoadingComplete, error } = useCachedResources();
+  
+  // Get the current theme based on the mode
+  const paperTheme = theme.mode === 'dark' ? PaperDarkTheme : PaperDefaultTheme;
+  
+  // Merge with our custom theme colors
+  const combinedTheme = {
+    ...paperTheme,
+    colors: {
+      ...paperTheme.colors,
+      ...theme,
+    },
+  };
+
+  // Load any resources or data that we need prior to rendering the app
+  useEffect(() => {
+    if (isLoadingComplete) {
+      // Add a small delay to ensure everything is loaded
+      const timer = setTimeout(() => {
+        setAppIsReady(true);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoadingComplete]);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return (
+      <View style={[styles.container, { backgroundColor: theme.background }]} />
+    );
+  }
+
+  return (
+    <PaperProvider theme={combinedTheme}>
+      <SafeAreaProvider onLayout={onLayoutRootView}>
+        <AppNavigator />
+        <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      </SafeAreaProvider>
+    </PaperProvider>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
+// Wrap the app with the Redux Provider
+const App = () => (
+  <StoreProvider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <AppContent />
+    </PersistGate>
+  </StoreProvider>
+);
+
+export default App;

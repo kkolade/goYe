@@ -1,0 +1,64 @@
+# Dependencies
+/node_modules
+/.expo
+/dist
+
+# Environment variables
+.env
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+*.p12
+*.key
+*.mobileprovision
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Android/IntelliJ
+/build
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+
+# iOS
+ios/**/Pods/
+ios/**/*.xcworkspace
+ios/**/*.xcodeproj/xcuserdata
+ios/**/*.xcodeproj/project.xcworkspace/xcuserdata
+ios/**/*.xcodeproj/project.xcworkspace/
+ios/Pods/
+
+# Testing
+/coverage
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local development
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
