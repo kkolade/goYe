@@ -89,46 +89,37 @@ export default function SignUpScreen({ navigation }) {
           {authError ? <Text style={styles.error}>{authError}</Text> : null}
           
           <TextInput
-            label="Email"
-            mode="outlined"
             style={styles.input}
+            placeholder="Email"
             value={email}
             onChangeText={setEmail}
             onBlur={() => handleBlur('email')}
             autoCapitalize="none"
             keyboardType="email-address"
-            left={<TextInput.Icon icon="email" />}
-            error={touched.email && !!errors.email}
           />
           {touched.email && errors.email ? (
             <Text style={styles.errorText}>{errors.email}</Text>
           ) : null}
           
           <TextInput
-            label="Password"
-            mode="outlined"
-            style={[styles.input, { marginTop: 16 }]}
+            style={styles.input}
+            placeholder="Password"
             value={password}
             onChangeText={setPassword}
             onBlur={() => handleBlur('password')}
             secureTextEntry
-            left={<TextInput.Icon icon="lock" />}
-            error={touched.password && !!errors.password}
           />
           {touched.password && errors.password ? (
             <Text style={styles.errorText}>{errors.password}</Text>
           ) : null}
           
           <TextInput
-            label="Confirm Password"
-            mode="outlined"
-            style={[styles.input, { marginTop: 16 }]}
+            style={styles.input}
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             onBlur={() => handleBlur('confirmPassword')}
             secureTextEntry
-            left={<TextInput.Icon icon="lock-check" />}
-            error={touched.confirmPassword && !!errors.confirmPassword}
           />
           {touched.confirmPassword && errors.confirmPassword ? (
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
@@ -139,24 +130,19 @@ export default function SignUpScreen({ navigation }) {
             onPress={handleSignUp}
             loading={isLoading}
             disabled={isLoading}
-            style={[styles.button, { marginTop: 24 }]}
-            contentStyle={{ height: 50 }}
-            labelStyle={{ fontSize: 16 }}
-            icon="account-plus"
+            style={styles.button}
           >
             Create Account
           </Button>
           
-          <View style={[styles.linksContainer, { marginTop: 20 }]}>
-            <Text style={{ color: theme.colors.onSurfaceVariant }}>
-              Already have an account?{' '}
-              <Text 
-                style={[styles.link, { color: theme.colors.primary }]}
-                onPress={() => navigation.navigate('Login')}
-              >
-                Sign In
-              </Text>
-            </Text>
+          <View style={styles.linksContainer}>
+            <Button
+              mode="text"
+              onPress={() => navigation.navigate('Login')}
+              style={styles.link}
+            >
+              Already have an account? Sign In
+            </Button>
           </View>
         </View>
       </ScrollView>

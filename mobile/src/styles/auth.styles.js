@@ -54,11 +54,15 @@ export const authStyles = (theme) => StyleSheet.create({
   input: {
     width: '100%',
     backgroundColor: theme.colors.surface,
+    marginBottom: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: theme.colors.outline,
   },
   button: {
     width: '100%',
-    borderRadius: 8,
     marginTop: 8,
+    marginBottom: 16,
   },
   backButton: {
     marginTop: 15,
@@ -83,8 +87,8 @@ export const authStyles = (theme) => StyleSheet.create({
   errorText: {
     color: theme.colors.error,
     fontSize: 12,
-    marginTop: 4,
-    marginBottom: 8,
+    marginTop: -12,
+    marginBottom: 12,
     marginLeft: 4,
   },
 });
