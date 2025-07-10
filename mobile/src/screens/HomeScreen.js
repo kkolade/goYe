@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, useTheme, Card, IconButton, Button, Portal, Modal } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/slices/authSlice';
 import { useNavigation } from '@react-navigation/native';
+import homeStyles from '../styles/home.styles';
 
-const { width } = Dimensions.get('window');
-const CARD_MARGIN = 8;
-const CARD_WIDTH = (width - 48) / 2 - CARD_MARGIN; // 16 padding on each side + margin between cards
+// Dimensions and styles are now managed in home.styles.js
 
 const DashboardCard = ({ title, count, icon, color, onPress }) => {
   const theme = useTheme();
+  const styles = homeStyles(theme);
   
   return (
     <TouchableOpacity onPress={onPress}>
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface, width: CARD_WIDTH }]}>
+      <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
-          <View style={[styles.cardIcon, { backgroundColor: `${color}20` }]}>
+          <View style={styles.cardIcon(color)}>
             <IconButton
               icon={icon}
               size={24}
               color={color}
-              style={styles.icon}
+              style={styles.actionIcon}
             />
           </View>
-          <Text style={[styles.cardCount, { color: theme.colors.text }]}>
+          <Text style={styles.cardCount}>
             {count}
           </Text>
-          <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
+          <Text style={styles.cardTitle}>
             {title}
           </Text>
         </Card.Content>
@@ -38,6 +38,7 @@ const DashboardCard = ({ title, count, icon, color, onPress }) => {
 
 const DashboardModal = ({ visible, onDismiss, theme }) => {
   const navigation = useNavigation();
+  const styles = homeStyles(theme);
   
   const dashboardItems = [
     { 
@@ -45,7 +46,7 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
       title: 'Daily Scriptures', 
       icon: 'book-open-variant',
       count: '5',
-      color: '#4CAF50',
+      color: theme.colors.primary,
       onPress: () => navigation.navigate('Scriptures')
     },
     { 
@@ -53,7 +54,7 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
       title: 'Notifications', 
       icon: 'bell',
       count: '3',
-      color: '#FF9800',
+      color: theme.colors.secondary,
       onPress: () => navigation.navigate('Notifications')
     },
     { 
@@ -61,7 +62,7 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
       title: 'Pending Tasks', 
       icon: 'clipboard-check',
       count: '7',
-      color: '#2196F3',
+      color: theme.colors.tertiary || '#2196F3',
       onPress: () => navigation.navigate('Tasks')
     },
     { 
@@ -69,7 +70,7 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
       title: 'Upcoming Events', 
       icon: 'calendar',
       count: '2',
-      color: '#9C27B0',
+      color: theme.colors.primaryContainer || '#9C27B0',
       onPress: () => navigation.navigate('Events')
     },
   ];
@@ -79,17 +80,17 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
       <Modal 
         visible={visible} 
         onDismiss={onDismiss}
-        contentContainerStyle={[styles.modal, { backgroundColor: theme.colors.background }]}
+        contentContainerStyle={styles.modal}
       >
         <View style={styles.modalHeader}>
-          <Text style={[styles.modalTitle, { color: theme.colors.primary }]}>
+          <Text style={styles.modalTitle}>
             Welcome Back!
           </Text>
           <IconButton
             icon="close"
             size={24}
             onPress={onDismiss}
-            color={theme.colors.text}
+            color={theme.colors.onSurface}
           />
         </View>
         
@@ -110,7 +111,7 @@ const DashboardModal = ({ visible, onDismiss, theme }) => {
           mode="contained" 
           onPress={onDismiss}
           style={styles.doneButton}
-          labelStyle={{ color: 'white' }}
+          labelStyle={{ color: theme.colors.onPrimary }}
         >
           Continue to App
         </Button>
@@ -123,6 +124,7 @@ const HomeScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [showDashboard, setShowDashboard] = useState(true);
+  const styles = homeStyles(theme);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -148,15 +150,15 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
           <View style={styles.headerTop}>
             <View>
-              <Text style={[styles.title, { color: theme.colors.primary }]}>
+              <Text style={styles.title}>
                 {getGreeting()}, User!
               </Text>
-              <Text style={[styles.subtitle, { color: theme.colors.text }]}>
+              <Text style={styles.subtitle}>
                 Welcome to goYe
               </Text>
             </View>
@@ -170,14 +172,14 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+          <Text style={styles.sectionTitle}>
             Quick Actions
           </Text>
           <View style={styles.quickActions}>
             {quickActions.map((action) => (
               <TouchableOpacity
                 key={action.id}
-                style={[styles.actionCard, { backgroundColor: theme.colors.surface }]}
+                style={styles.actionCard}
                 onPress={() => handleQuickAction(action.screen)}
               >
                 <IconButton
@@ -186,7 +188,7 @@ const HomeScreen = () => {
                   color={theme.colors.primary}
                   style={styles.actionIcon}
                 />
-                <Text style={[styles.actionText, { color: theme.colors.text }]}>
+                <Text style={styles.actionText}>
                   {action.title}
                 </Text>
               </TouchableOpacity>
@@ -195,12 +197,12 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+          <Text style={styles.sectionTitle}>
             Recent Activity
           </Text>
-          <Card style={{ backgroundColor: theme.colors.surface, marginTop: 10 }}>
-            <Card.Content>
-              <Text style={{ color: theme.colors.text, textAlign: 'center' }}>
+          <Card style={styles.activityCard}>
+            <Card.Content style={styles.activityContent}>
+              <Text style={[styles.emptyStateText, { textAlign: 'center' }]}>
                 Your recent activities will appear here
               </Text>
             </Card.Content>
@@ -217,198 +219,5 @@ const HomeScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    padding: 24,
-    paddingTop: 60,
-    paddingBottom: 32,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    marginBottom: -24,
-    zIndex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  headerTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  modal: {
-    backgroundColor: 'white',
-    margin: 16,
-    borderRadius: 12,
-    padding: 16,
-    width: width - 32, // Full width minus margin
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  dashboardGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    marginHorizontal: -CARD_MARGIN/2,
-  },
-  card: {
-    marginBottom: 16,
-    borderRadius: 12,
-    elevation: 2,
-    marginHorizontal: CARD_MARGIN/2,
-    flex: 1,
-    minWidth: CARD_WIDTH,
-    maxWidth: CARD_WIDTH,
-  },
-  cardContent: {
-    alignItems: 'center',
-    padding: 16,
-  },
-  cardIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  cardCount: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  cardTitle: {
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  doneButton: {
-    marginTop: 8,
-    borderRadius: 8,
-    backgroundColor: '#6200ee',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 10,
-    textAlign: 'center',
-    opacity: 0.8,
-  },
-  section: {
-    marginBottom: 24,
-    paddingHorizontal: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  quickActions: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  actionCard: {
-    width: '48%',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  actionIcon: {
-    margin: 0,
-  },
-  actionText: {
-    marginTop: 4,
-    fontSize: 12,
-    textAlign: 'center',
-  },
-
-  greeting: {
-    fontSize: 20,
-    opacity: 0.9,
-  },
-  userName: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: 4,
-  },
-  profileButton: {
-    elevation: 2,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    padding: 16,
-    marginTop: 24,
-  },
-  statCard: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 12,
-    elevation: 1,
-  },
-  statContent: {
-    padding: 16,
-  },
-  section: {
-    paddingHorizontal: 16,
-    marginBottom: 24,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  quickActionsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  activityCard: {
-    borderRadius: 12,
-    overflow: 'hidden',
-    elevation: 1,
-  },
-  activityContent: {
-    paddingVertical: 8,
-  },
-  emptyState: {
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-});
 
 export default HomeScreen;
