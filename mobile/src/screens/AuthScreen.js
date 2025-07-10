@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Image, KeyboardAvoidingView, Platform, ScrollView, TextInput } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Text, Button, useTheme } from 'react-native-paper';
 import { useAuth } from '../hooks/useAuth';
-import { authStyles as styles } from '../styles/auth.styles';
+import { authStyles } from '../styles/auth.styles';
 
 const AuthScreen = ({ navigation }) => {
+  const theme = useTheme();
+  const styles = authStyles(theme);
   const { login, isLoading, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

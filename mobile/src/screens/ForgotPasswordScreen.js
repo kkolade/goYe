@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
-import { Text, Button, TextInput } from 'react-native-paper';
+import { Text, Button, TextInput, useTheme } from 'react-native-paper';
 import { useAuth } from '../hooks/useAuth';
-import { authStyles as styles } from '../styles/auth.styles';
+import { authStyles } from '../styles/auth.styles';
 
 export default function ForgotPasswordScreen({ navigation }) {
+  const theme = useTheme();
+  const styles = authStyles(theme);
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { requestPasswordReset, isLoading, error } = useAuth();
