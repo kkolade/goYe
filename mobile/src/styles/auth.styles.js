@@ -58,6 +58,10 @@ export const authStyles = (theme) => StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     borderColor: theme.colors.outline,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 16,
+    height: 48,
   },
   button: {
     width: '100%',

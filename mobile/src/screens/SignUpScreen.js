@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
-import { Text, Button, TextInput, useTheme } from 'react-native-paper';
+import { View, KeyboardAvoidingView, Platform, ScrollView, Image, TextInput } from 'react-native';
+import { Text, Button, useTheme } from 'react-native-paper';
 import { useAuth } from '../hooks/useAuth';
 import { authStyles } from '../styles/auth.styles';
 
@@ -79,8 +79,8 @@ export default function SignUpScreen({ navigation }) {
               resizeMode="contain"
             />
           </View>
-          <Text variant="headlineMedium" style={styles.title}>Create Account</Text>
-          <Text variant="bodyMedium" style={styles.subtitle}>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>
             Join our community of disciples
           </Text>
         </View>
@@ -88,42 +88,48 @@ export default function SignUpScreen({ navigation }) {
         <View style={styles.formContainer}>
           {authError ? <Text style={styles.error}>{authError}</Text> : null}
           
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            onBlur={() => handleBlur('email')}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
-          {touched.email && errors.email ? (
-            <Text style={styles.errorText}>{errors.email}</Text>
-          ) : null}
+          <View style={{ marginBottom: 16, width: '100%' }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              onBlur={() => handleBlur('email')}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+            {touched.email && errors.email ? (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            ) : null}
+          </View>
           
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            onBlur={() => handleBlur('password')}
-            secureTextEntry
-          />
-          {touched.password && errors.password ? (
-            <Text style={styles.errorText}>{errors.password}</Text>
-          ) : null}
+          <View style={{ marginBottom: 16, width: '100%' }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              onBlur={() => handleBlur('password')}
+              secureTextEntry
+            />
+            {touched.password && errors.password ? (
+              <Text style={styles.errorText}>{errors.password}</Text>
+            ) : null}
+          </View>
           
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            onBlur={() => handleBlur('confirmPassword')}
-            secureTextEntry
-          />
-          {touched.confirmPassword && errors.confirmPassword ? (
-            <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-          ) : null}
+          <View style={{ marginBottom: 16, width: '100%' }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              onBlur={() => handleBlur('confirmPassword')}
+              secureTextEntry
+            />
+            {touched.confirmPassword && errors.confirmPassword ? (
+              <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+            ) : null}
+          </View>
           
           <Button
             mode="contained"

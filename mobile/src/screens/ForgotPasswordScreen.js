@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
-import { Text, Button, TextInput, useTheme } from 'react-native-paper';
+import { View, KeyboardAvoidingView, Platform, ScrollView, Image, TextInput } from 'react-native';
+import { Text, Button, useTheme } from 'react-native-paper';
 import { useAuth } from '../hooks/useAuth';
 import { authStyles } from '../styles/auth.styles';
 
@@ -71,14 +71,16 @@ export default function ForgotPasswordScreen({ navigation }) {
         <View style={styles.formContainer}>
           {error ? <Text style={styles.error}>{error}</Text> : null}
           
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
+          <View style={{ marginBottom: 16, width: '100%' }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+          </View>
 
           <Button 
             mode="contained" 
