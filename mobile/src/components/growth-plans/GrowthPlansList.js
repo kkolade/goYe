@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import { Searchbar, ActivityIndicator, Text, useTheme, FAB } from 'react-native-paper';
 import GrowthPlanItem from './GrowthPlanItem';
+import growthPlansStyles from '../../styles/growthPlans.styles';
 
 const GrowthPlansList = ({
   plans,
@@ -16,9 +17,11 @@ const GrowthPlansList = ({
 }) => {
   const theme = useTheme();
 
+  const styles = growthPlansStyles(theme);
+
   if (isLoading && !refreshing) {
     return (
-      <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -26,14 +29,14 @@ const GrowthPlansList = ({
 
   if (error) {
     return (
-      <View style={[styles.errorContainer, { backgroundColor: theme.colors.background }]}>
+      <View style={styles.errorContainer}>
         <Text style={{ color: theme.colors.error }}>{error}</Text>
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={styles.container}>
       <View style={styles.searchContainer}>
         <Searchbar
           placeholder="Search growth plans..."
@@ -72,11 +75,7 @@ const GrowthPlansList = ({
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={{ 
-              color: theme.colors.onSurfaceVariant,
-              textAlign: 'center',
-              marginBottom: 16,
-            }}>
+            <Text style={styles.emptyText}>
               No growth plans found. Create your first growth plan to get started!
             </Text>
           </View>
@@ -84,7 +83,7 @@ const GrowthPlansList = ({
       />
 
       <FAB
-        style={[styles.fab, { backgroundColor: theme.colors.primary }]}
+        style={styles.fab}
         icon="plus"
         onPress={onAddPress}
         color="white"
@@ -93,44 +92,6 @@ const GrowthPlansList = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  searchContainer: {
-    padding: 10,
-  },
-  searchBar: {
-    elevation: 2,
-    marginBottom: 8,
-  },
-  listContent: {
-    padding: 16,
-    paddingBottom: 32,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-});
+
 
 export default GrowthPlansList;
